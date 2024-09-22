@@ -1,0 +1,221 @@
+package com.pinoy.side_gig.data.network.controllers;
+
+import android.content.Context;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
+
+import com.pinoy.side_gig.data.network.BaseSync;
+import com.pinoy.side_gig.data.database.DatabaseHelper;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+public class AccountController extends BaseSync {
+    String controller = "v2/android/sync/SOVisibilityCons_267/";
+
+    public AccountController (Context context)
+    {
+        super(context);
+        TAG = "SOVisibilitySync";
+    }
+
+    @Override
+    public void get(String email, final Result.Listener listener){
+        final Map<String, String> params = new HashMap<>();
+        String url = SYNC_CONFIG_BASE_URL +  controller + "get";
+
+//        DatabaseHelper dbHelper = new DatabaseHelper(context);
+//        Cursor cursor = dbHelper.get_orders();
+//
+//        String fct_basis_date = "all";
+//
+//        if(cursor != null){
+//            fct_basis_date = getBasisDate(cursor.moveToNext());
+//        }
+
+        params.put("email", email);
+//        params.put("fct_basis_date", fct_basis_date);
+
+        request(url, params, listener);
+    }
+
+    @Override
+    public void sync(final Result.Listener listener){
+
+    }
+
+    @Override
+    String prepareData(){
+        return null;
+    }
+
+    @Override
+    boolean saveData(JSONArray sync_data){
+        boolean success = true;
+
+        try {
+            DatabaseHelper myDb = new DatabaseHelper(context);
+
+            if (sync_data.length() != 0) {
+
+                SQLiteDatabase db = myDb.getWritableDatabase();
+
+                db.beginTransaction();
+                ArrayList<String> maintained_so = new ArrayList<String>();
+                ArrayList<String> maintained_so_remarks = new ArrayList<String>();
+
+                for (int i = 0; i < sync_data.length(); i++) {
+                    JSONObject sync_object = sync_data.getJSONObject(i);
+                    String current_table = sync_object.getString("table");
+                    String current_tag = sync_object.getString("tag");
+
+                    /* rep_bso_visibility */
+                    String qry_rep_bso_visibility = "REPLACE INTO rep_bso_visibility (so_number,customer_code,cusname_1,cusname_2,ZDE_REMARKS,ZDE_REMARKS2,rejection_reason,so_amount,region,territory,so_classname,category,creationdate,so_class) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    SQLiteStatement stmt_rep_bso_visibility = db.compileStatement(qry_rep_bso_visibility);
+
+                    String qry_sync_ReceiveSoRemarks = "REPLACE INTO fct_so_visibility_remarks (so_number,sdo_remarks,rsm_remarks,sdo_email,rsm_email,credit_remarks,credit_email,sdo_created_at,sdo_updated_at,rsm_created_at,rsm_updated_at,credit_created_at,credit_updated_at,credit_status,credit_approver) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    SQLiteStatement stmt_sync_ReceiveSoRemarks = db.compileStatement(qry_sync_ReceiveSoRemarks);
+
+                    String qry_sync_ReceiveSoRemarks2 = "REPLACE INTO fct_so_visibility_remarks2 (id, so_number,user_email,user_remarks,user_tags,created_at,updated_at) VALUES (?,?,?,?,?,?,?)";
+                    SQLiteStatement stmt_sync_ReceiveSoRemarks2 = db.compileStatement(qry_sync_ReceiveSoRemarks2);
+
+                    if (current_table.equals("rep_bso_visibility") && current_tag.equals("0")) {
+                        maintained_so.add("'" + formatData(sync_object.getString("so_number")) + "'");
+                        String s_so_number = formatData(sync_object.getString("so_number"));
+                        String s_customer_code = formatData(sync_object.getString("customer_code"));
+                        String s_cusname_1 = formatData(sync_object.getString("cusname_1"));
+                        String s_cusname_2 = formatData(sync_object.getString("cusname_2"));
+                        String s_ZDE_REMARKS = formatData(sync_object.getString("ZDE_REMARKS"));
+                        String s_ZDE_REMARKS2 = formatData(sync_object.getString("ZDE_REMARKS2"));
+                        String s_rejection_reason = formatData(sync_object.getString("rejection_reason"));
+                        String s_so_amount = formatData(sync_object.getString("so_amount"));
+                        String s_region = formatData(sync_object.getString("region"));
+                        String s_territory = formatData(sync_object.getString("territory"));
+                        String s_so_classname = formatData(sync_object.getString("so_classname"));
+                        String s_category = formatData(sync_object.getString("category"));
+                        String s_creationdate = formatData(sync_object.getString("so_db_date"));
+                        String s_so_class = formatData(sync_object.getString("so_class"));
+
+                        //myDb.insert_booking_type(xtype);
+
+                        stmt_rep_bso_visibility.bindString(1, s_so_number);
+                        stmt_rep_bso_visibility.bindString(2, s_customer_code);
+                        stmt_rep_bso_visibility.bindString(3, s_cusname_1);
+                        stmt_rep_bso_visibility.bindString(4, s_cusname_2);
+                        stmt_rep_bso_visibility.bindString(5, s_ZDE_REMARKS);
+                        stmt_rep_bso_visibility.bindString(6, s_ZDE_REMARKS2);
+                        stmt_rep_bso_visibility.bindString(7, s_rejection_reason);
+                        stmt_rep_bso_visibility.bindString(8, s_so_amount);
+                        stmt_rep_bso_visibility.bindString(9, s_region);
+                        stmt_rep_bso_visibility.bindString(10, s_territory);
+                        stmt_rep_bso_visibility.bindString(11, s_so_classname);
+                        stmt_rep_bso_visibility.bindString(12, s_category);
+                        stmt_rep_bso_visibility.bindString(13, s_creationdate);
+                        stmt_rep_bso_visibility.bindString(14, s_so_class);
+
+                        stmt_rep_bso_visibility.execute();
+                        stmt_rep_bso_visibility.clearBindings();
+                    }
+
+                    if (current_table.equals("fct_so_visibility_remarks") && current_tag.equals("2")) {
+                        maintained_so_remarks.add("'" + formatData(sync_object.getString("so_number")) + "'");
+                        stmt_sync_ReceiveSoRemarks.bindString(1 , formatData(sync_object.getString("so_number")));
+                        stmt_sync_ReceiveSoRemarks.bindString(2 , formatData(sync_object.getString("sdo_remarks")));
+                        stmt_sync_ReceiveSoRemarks.bindString(3 , formatData(sync_object.getString("rsm_remarks")));
+                        stmt_sync_ReceiveSoRemarks.bindString(4 , formatData(sync_object.getString("sdo_email")));
+                        stmt_sync_ReceiveSoRemarks.bindString(5 , formatData(sync_object.getString("rsm_email")));
+                        stmt_sync_ReceiveSoRemarks.bindString(6 , formatData(sync_object.getString("credit_remarks")));
+                        stmt_sync_ReceiveSoRemarks.bindString(7 , formatData(sync_object.getString("credit_email")));
+                        stmt_sync_ReceiveSoRemarks.bindString(8 , formatData(sync_object.getString("sdo_created_at")));
+                        stmt_sync_ReceiveSoRemarks.bindString(9 , formatData(sync_object.getString("sdo_updated_at")));
+                        stmt_sync_ReceiveSoRemarks.bindString(10 , formatData(sync_object.getString("rsm_created_at")));
+                        stmt_sync_ReceiveSoRemarks.bindString(11 , formatData(sync_object.getString("rsm_updated_at")));
+                        stmt_sync_ReceiveSoRemarks.bindString(12 , formatData(sync_object.getString("credit_created_at")));
+                        stmt_sync_ReceiveSoRemarks.bindString(13 , formatData(sync_object.getString("credit_updated_at")));
+                        stmt_sync_ReceiveSoRemarks.bindString(14 , formatData(sync_object.getString("credit_status")));
+                        stmt_sync_ReceiveSoRemarks.bindString(15 , formatData(sync_object.getString("credit_approver")));
+                        stmt_sync_ReceiveSoRemarks.execute();
+                        stmt_sync_ReceiveSoRemarks.clearBindings();
+                    }
+
+                    if (current_table.equals("fct_so_visibility_remarks2") && current_tag.equals("2")) {
+                        maintained_so_remarks.add("'" + formatData(sync_object.getString("so_number")) + "'");
+                        stmt_sync_ReceiveSoRemarks2.bindString(1, formatData(sync_object.getString("id")));
+                        stmt_sync_ReceiveSoRemarks2.bindString(2, formatData(sync_object.getString("so_number")));
+                        stmt_sync_ReceiveSoRemarks2.bindString(3, formatData(sync_object.getString("user_email")));
+                        stmt_sync_ReceiveSoRemarks2.bindString(4, formatData(sync_object.getString("user_remarks")));
+                        stmt_sync_ReceiveSoRemarks2.bindString(5, formatData(sync_object.getString("user_tags")));
+                        stmt_sync_ReceiveSoRemarks2.bindString(6, formatData(sync_object.getString("created_at")));
+                        stmt_sync_ReceiveSoRemarks2.bindString(7, formatData(sync_object.getString("updated_at")));
+                        stmt_sync_ReceiveSoRemarks2.execute();
+                        stmt_sync_ReceiveSoRemarks2.clearBindings();
+                    }
+                }
+
+                //delete all SO status not included to synced.
+                String s_maintained_so = android.text.TextUtils.join(",", maintained_so);
+                String qry_rep_bso_visibility = "Delete from rep_bso_visibility where so_number not in ( " + s_maintained_so + ") ";
+                SQLiteStatement stmt_rep_bso_visibility = db.compileStatement(qry_rep_bso_visibility);
+                stmt_rep_bso_visibility.execute();
+                stmt_rep_bso_visibility.clearBindings();
+
+                String qry_so_remarks2 = "Delete from fct_so_visibility_remarks2  where so_number not in ( " + s_maintained_so + ") ";
+                SQLiteStatement stmt_so_remarks2 = db.compileStatement(qry_so_remarks2);
+                stmt_so_remarks2.execute();
+                stmt_so_remarks2.clearBindings();
+
+                String s_maintained_so_remarks = android.text.TextUtils.join(",", maintained_so_remarks);
+                String qry_so_remarks = "Delete from fct_so_visibility_remarks where so_number not in ( " + s_maintained_so + ") ";
+                SQLiteStatement stmt_so_remarks = db.compileStatement(qry_so_remarks);
+                stmt_so_remarks.execute();
+                stmt_so_remarks.clearBindings();
+
+
+                db.setTransactionSuccessful();
+                db.endTransaction();
+                db.close();
+            } else {
+                //delete all SO status. No data found in cloud
+                SQLiteDatabase db = myDb.getWritableDatabase();
+                db.beginTransaction();
+
+                String qry_rep_bso_visibility = "Delete from rep_bso_visibility";
+                SQLiteStatement stmt_rep_bso_visibility = db.compileStatement(qry_rep_bso_visibility);
+                stmt_rep_bso_visibility.execute();
+                stmt_rep_bso_visibility.clearBindings();
+
+                String qry_so_remarks = "Delete from fct_so_visibility_remarks";
+                SQLiteStatement stmt_so_remarks = db.compileStatement(qry_so_remarks);
+                stmt_so_remarks.execute();
+                stmt_so_remarks.clearBindings();
+
+                String qry_so_remarks2 = "Delete from fct_so_visibility_remarks2";
+                SQLiteStatement stmt_so_remarks2 = db.compileStatement(qry_so_remarks2);
+                stmt_so_remarks2.execute();
+                stmt_so_remarks2.clearBindings();
+
+                db.setTransactionSuccessful();
+                db.endTransaction();
+                db.close();
+            }
+
+            context.sendBroadcast(new Intent(DATA_SAVED_BROADCAST));
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+            success = false;
+            Log.e(TAG, "exception", e);
+        }
+        finally {
+            return success;
+        }
+
+    }
+}

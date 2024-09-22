@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!-- RadioGroup for gender selection (tile style) -->
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fitsSystemWindows="true">-->
+
+<!--        <com.google.android.material.appbar.MaterialToolbar-->
+<!--            android:id="@+id/toolbar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="?attr/actionBarSize"-->
+<!--            android:background="#6200EE" />-->
+
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rdUserType"
+        android:layout_marginBottom="15dp"
+        android:textSize="30dp"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:text="Join as a client or worker" />
+
+    <RadioGroup
+        android:id="@+id/rdUserType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp">
+
+        <RadioButton
+            android:id="@+id/clientRadioButton"
+            style="@style/TileRadioButtonStyle"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:text="I'm a client, \nlooking for skilled worker" />
+
+        <RadioButton
+            android:id="@+id/workerRadioButton"
+            style="@style/TileRadioButtonStyle"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:text="I'm a Skilled worker, \nlooking for job" />
+
+    </RadioGroup>
+</RelativeLayout>

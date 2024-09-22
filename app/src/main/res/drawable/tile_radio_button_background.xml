@@ -1,0 +1,17 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#A6CDEC" /> <!-- Selected background color -->
+            <corners android:radius="12dp" />
+            <stroke android:color="@color/EdittxtColor"/>
+
+        </shape>
+    </item>
+
+    <item android:state_checked="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/btnColor" /> <!-- Unselected background color -->
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+</selector>
