@@ -50,7 +50,7 @@ public class TransformFragment extends Fragment {
         transformViewModel.getTexts().observe(getViewLifecycleOwner(), adapter::submitList);
 
         LinearLayoutManager layoutManager
-                = new GridLayoutManager(requireContext(),4, GridLayoutManager.VERTICAL, false);
+                = new GridLayoutManager(requireContext(),3, GridLayoutManager.VERTICAL, false);
 
         RecyclerView myList = binding.recyclerviewTransform;
         myList.setLayoutManager(layoutManager);
@@ -69,22 +69,25 @@ public class TransformFragment extends Fragment {
     private static class TransformAdapter extends ListAdapter<String, TransformViewHolder> {
 
         private final List<Integer> drawables = Arrays.asList(
-                R.drawable.mech,
-                R.drawable.car,
-                R.drawable.house,
-                R.drawable.bulb,
-                R.drawable.avatar_5,
-                R.drawable.avatar_6,
-                R.drawable.avatar_7,
-                R.drawable.avatar_8,
-                R.drawable.avatar_9,
-                R.drawable.avatar_10,
-                R.drawable.avatar_11,
-                R.drawable.avatar_12,
-                R.drawable.avatar_13,
-                R.drawable.avatar_14,
-                R.drawable.avatar_15,
-                R.drawable.avatar_16);
+                R.drawable.cleaining,
+                R.drawable.ico,
+                R.drawable.shoemaker,
+                R.drawable.cooking,
+                R.drawable.electrician,
+                R.drawable.driver,
+                R.drawable.beautycare,
+                R.drawable.laundry,
+                R.drawable.painter,
+                R.drawable.carpenter,
+                R.drawable.plumber,
+                R.drawable.tutor,
+                R.drawable.babysitter,
+                R.drawable.fridge,
+                R.drawable.computer_repair,
+                R.drawable.photography,
+                R.drawable.videography,
+                R.drawable.editing,
+                R.drawable.welder);
 
         protected TransformAdapter() {
             super(new DiffUtil.ItemCallback<String>() {
