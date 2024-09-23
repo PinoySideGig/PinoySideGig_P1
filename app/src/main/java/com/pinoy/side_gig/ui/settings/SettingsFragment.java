@@ -30,10 +30,10 @@ public class SettingsFragment extends Fragment {
         final TextView textView = binding.textSettings;
         settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         myDb = new DatabaseHelper(getContext());
-        myDb.Logout();
+//        myDb.Logout();
 //        if(res){
-        Intent i = new Intent(getContext(), MainActivity.class);
-        startActivity(i);
+//        Intent i = new Intent(getContext(), MainActivity.class);
+//        startActivity(i);
 //        }
         return root;
     }

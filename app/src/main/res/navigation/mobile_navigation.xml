@@ -7,15 +7,15 @@
 
     <fragment
         android:id="@+id/nav_transform"
-        android:name="com.pinoy.side_gig.ui.transform.TransformFragment"
+        android:name="com.pinoy.side_gig.ui.services.ServicesFragment"
         android:label="Services"
         tools:layout="@layout/fragment_transform" />
 
     <fragment
         android:id="@+id/nav_reflow"
-        android:name="com.pinoy.side_gig.ui.reflow.ReflowFragment"
+        android:name="com.pinoy.side_gig.ui.account.AccountFragment"
         android:label="Account"
-        tools:layout="@layout/fragment_reflow" />
+        tools:layout="@layout/fragment_account" />
 
     <fragment
         android:id="@+id/nav_slideshow"
@@ -28,9 +28,5 @@
         android:name="com.pinoy.side_gig.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
-    <activity
-        android:id="@+id/nav_logout"
-        android:name="com.pinoy.side_gig.Logout"
-        android:label="Logout"
-        tools:layout="@layout/fragment_settings" />
+     />
 </navigation>

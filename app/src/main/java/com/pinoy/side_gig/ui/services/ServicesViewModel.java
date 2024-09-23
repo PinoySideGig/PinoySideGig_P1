@@ -1,4 +1,4 @@
-package com.pinoy.side_gig.ui.transform;
+package com.pinoy.side_gig.ui.services;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -7,11 +7,11 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransformViewModel extends ViewModel {
+public class ServicesViewModel extends ViewModel {
 
     private final MutableLiveData<List<String>> mTexts;
 
-    public TransformViewModel() {
+    public ServicesViewModel() {
         mTexts = new MutableLiveData<>();
         List<String> texts = new ArrayList<>();
         texts.add("CLEANING SERVICES");
