@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -99,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         binding.title.setText(userType + " Registration Form");
+        binding.password.setTransformationMethod(new PasswordTransformationMethod());
 
         binding.bday.setOnClickListener(new View.OnClickListener() {
             @Override

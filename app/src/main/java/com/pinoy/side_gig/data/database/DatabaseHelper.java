@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,7 +60,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "firstname	varchar	(255), " +
                 "gender	varchar	(255), " +
                 "age	int	(11), " +
-                "phone_num	int	(11), " +
+                "phone_num	varchar	(50), " +
                 "bday	date	(0), " +
                 "location	varchar	(255), " +
                 "skills	varchar	(255), " +
@@ -69,12 +72,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ")");
     }
 
-    public boolean insertAccount(String email,String pass) {
+    public boolean insertAccount(JSONObject obj) throws JSONException {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(dim_user_accounts_email, email);
-        contentValues.put(dim_user_accounts_password, pass);
+        contentValues.put(dim_user_accounts_email, obj.getString("email"));
+        contentValues.put(dim_user_accounts_password, obj.getString("password"));
+        contentValues.put(dim_user_accounts_lastname, obj.getString("lastname"));
+        contentValues.put(dim_user_accounts_firstname, obj.getString("firstname"));
+        contentValues.put(dim_user_accounts_gender, obj.getString("gender"));
+        contentValues.put(dim_user_accounts_age, obj.getString("age"));
+        contentValues.put(dim_user_accounts_phone_num, obj.getString("phone_num"));
+        contentValues.put(dim_user_accounts_bday, obj.getString("bday"));
+        contentValues.put(dim_user_accounts_location, obj.getString("location"));
+        contentValues.put(dim_user_accounts_skills, obj.getString("skills"));
+        contentValues.put(dim_user_accounts_experience, obj.getString("experience"));
+        contentValues.put(dim_user_accounts_valid_id, obj.getString("valid_id"));
+        contentValues.put(dim_user_accounts_file_1, obj.getString("file_1"));
+        contentValues.put(dim_user_accounts_display_photo, obj.getString("display_photo"));
+        contentValues.put(dim_user_accounts_user_type, obj.getString("user_type"));
+
 
         long bookingtype_result = db.insert(dim_user_accounts_table, null, contentValues);
 

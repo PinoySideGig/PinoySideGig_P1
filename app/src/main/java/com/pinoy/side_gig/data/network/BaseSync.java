@@ -189,7 +189,7 @@ public abstract class BaseSync {
 
 //                SQLiteDatabase db = myDb.getWritableDatabase();
 //                db.beginTransaction();
-                myDb.insertAccount(sync_data.getString("email"),sync_data.getString("password"));
+                myDb.insertAccount(sync_data);
 
             }
 //        }

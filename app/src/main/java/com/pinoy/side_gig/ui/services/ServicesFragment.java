@@ -1,4 +1,4 @@
-package com.pinoy.side_gig.ui.transform;
+package com.pinoy.side_gig.ui.services;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,14 +30,14 @@ import java.util.List;
  * the [RecyclerView] using LinearLayoutManager in a small screen
  * and shows items using GridLayoutManager in a large screen.
  */
-public class TransformFragment extends Fragment {
+public class ServicesFragment extends Fragment {
 
     private FragmentTransformBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        TransformViewModel transformViewModel =
-                new ViewModelProvider(this).get(TransformViewModel.class);
+        ServicesViewModel servicesViewModel =
+                new ViewModelProvider(this).get(ServicesViewModel.class);
 
         binding = FragmentTransformBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -47,7 +47,7 @@ public class TransformFragment extends Fragment {
         RecyclerView recyclerView = binding.recyclerviewTransform;
         ListAdapter<String, TransformViewHolder> adapter = new TransformAdapter();
         recyclerView.setAdapter(adapter);
-        transformViewModel.getTexts().observe(getViewLifecycleOwner(), adapter::submitList);
+        servicesViewModel.getTexts().observe(getViewLifecycleOwner(), adapter::submitList);
 
         LinearLayoutManager layoutManager
                 = new GridLayoutManager(requireContext(),3, GridLayoutManager.VERTICAL, false);
