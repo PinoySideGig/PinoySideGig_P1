@@ -1,94 +1,160 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.account.AccountFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF"
+    android:padding="16dp"
+    android:fillViewport="true">
 
-    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:elevation="20dp"
+        android:gravity="center_horizontal">
 
+        <!-- Top Banner Image -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/acc_banner3"
+            android:layout_marginBottom="-60dp" />
+<!--        <ImageView-->
+<!--            android:id="@+id/bannerImageView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="150dp"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/acc_banner"-->
+<!--            android:layout_marginBottom="-60dp" />-->
+
+        <!-- Circular Profile Picture -->
+        <ImageView
+            android:id="@+id/profileImageView"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+
+            android:src="@drawable/avatar_1"
+            android:background="@drawable/circle_shape"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:elevation="6dp" />
+
+        <!-- Username, Location and Join Date -->
+        <TextView
+            android:id="@+id/usernameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Arnoldy Chafe"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/locationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quezon City  •  Joined Sept 2023"
+            android:textSize="14sp"
+            android:textColor="#888888"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Follow, Message, More Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+
+
+            <Button
+                android:id="@+id/messageButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Message"
+                android:backgroundTint="#6200EE"
+                android:textColor="#FFFFFF"
+                android:elevation="4dp"
+                android:layout_marginHorizontal="15dp"
+                app:icon="@drawable/ic_email"
+                android:layout_marginStart="8dp" />
+
+            <Button
+                android:id="@+id/editProfileButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="15dp"
+                app:icon="@drawable/baseline_edit_24"
+                android:text="Edit Profile"
+                android:backgroundTint="#6200EE"
+                android:textColor="#FFFFFF"
+                android:elevation="4dp" />
+
+
+        </LinearLayout>
+
+        <!-- Short Bio -->
+        <TextView
+            android:id="@+id/skills"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Input content here..."
+            android:textSize="20sp"
+            android:textColor="#000000"
             android:gravity="center_horizontal"
-            android:background="@drawable/layout_background"
-            android:elevation="10dp"
-            android:padding="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginHorizontal="16dp"
-            >
+            android:layout_margin="16dp" />
 
-            <!-- Profile Picture -->
-            <ImageView
-                android:id="@+id/profileImageView"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/avatar_1"
-                android:contentDescription="Profile Picture"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/circle_shape"
-                android:elevation="8dp" />
+        <!-- Information Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Information"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="16dp" />
 
-            <!-- Name -->
-            <TextView
-                android:id="@+id/usernameTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="John Doe"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="#000000"
-                android:layout_marginBottom="2dp"
-                android:gravity="center_horizontal" />
-            <TextView
-                android:id="@+id/skills"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="John Doe"
-                android:textSize="16sp"
-                android:textColor="#000000"
-                android:layout_marginBottom="2dp"
-                android:gravity="center_horizontal" />
+        <!-- Information List (Website, Email, Phone, Joined) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
 
             <!-- Email -->
-            <TextView
-                android:id="@+id/emailTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="johndoe@example.com"
-                android:textSize="16sp"
-                android:textColor="#757575"
-                android:textStyle="italic"
-                android:layout_marginBottom="24dp"
-                android:gravity="center_horizontal" />
-
-            <!-- Contact Info Section -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Contact Information"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#000000"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Phone Number -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingBottom="16dp">
+                android:paddingBottom="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_email"
+                    android:layout_marginEnd="16dp" />
+
+                <TextView
+                    android:id="@+id/emailTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="pinoy@sidegig.com"
+                    android:textSize="16sp"
+                    android:textColor="#000000" />
+            </LinearLayout>
+
+            <!-- Phone -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp">
 
                 <ImageView
                     android:layout_width="24dp"
@@ -100,68 +166,90 @@
                     android:id="@+id/phoneTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="(123) 456-7890"
+                    android:text="+639999952766"
                     android:textSize="16sp"
                     android:textColor="#000000" />
             </LinearLayout>
 
-            <!-- Address -->
+            <!-- Joined Date -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingBottom="16dp">
+                android:paddingBottom="8dp">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_location"
+                    android:src="@drawable/ic_calendar"
                     android:layout_marginEnd="16dp" />
 
                 <TextView
-                    android:id="@+id/addressTextView"
+                    android:id="@+id/bdayTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1234 Main Street, City, Country"
+                    android:text="26 March, 2023"
                     android:textSize="16sp"
                     android:textColor="#000000" />
             </LinearLayout>
+        </LinearLayout>
 
-            <!-- Edit Profile Button -->
-            <Button
-                android:id="@+id/editProfileButton"
-                android:layout_width="match_parent"
+        <!-- Tags/Labels -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Edit Profile"
-                android:backgroundTint="#6200EE"
-                android:textColor="#FFFFFF"
-                android:layout_marginBottom="1dp"
-                android:elevation="4dp" />
+                android:layout_weight="1"
+                android:text="Rating"
+                android:textAlignment="center"
+                android:padding="8dp"
+                android:background="@drawable/tag_background"
+                android:textColor="#000000"
+                android:layout_marginEnd="8dp" />
 
-            <!-- Logout Button -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Score"
+                android:textAlignment="center"
+                android:padding="8dp"
+                android:background="@drawable/tag_background"
+                android:textColor="#000000"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Reviews"
+                android:textAlignment="center"
+                android:padding="8dp"
+                android:background="@drawable/tag_background"
+                android:textColor="#000000" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="16dp">
             <Button
                 android:id="@+id/logoutButton"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Logout"
-                android:backgroundTint="#FF3D00"
+                android:backgroundTint="#EE0000"
                 android:textColor="#FFFFFF"
-                android:elevation="4dp" />
+                android:elevation="4dp"
+                app:icon ="@drawable/ic_logout"
+                android:layout_marginStart="8dp" />
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-
-    <TextView
-        android:id="@+id/text_reflow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

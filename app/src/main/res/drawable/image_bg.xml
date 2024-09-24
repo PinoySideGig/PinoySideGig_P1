@@ -13,4 +13,9 @@
     <stroke
         android:color="@color/btnColor"
         android:width="1dp"/>
+    <padding
+        android:right="20dp"
+        android:left="20dp"
+
+        />
 </shape>

@@ -3,6 +3,7 @@ package com.pinoy.side_gig;
 //import static com.pinoy.side_gig.MainActivity.CAMERA_REQUEST_CODE;
 
 import android.app.DatePickerDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -22,6 +23,7 @@ import android.provider.MediaStore;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -76,10 +78,16 @@ public class RegisterActivity extends AppCompatActivity {
     String url;
     String email,password,lastname,firstname,gender,age,phone,bday,location,skills,experience,valid_id,file_1,display_photo;
     String re_password;
+    String userType;
     StringRequest stringRequest;
     JSONObject obj;
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final int PICK_FILE_REQUEST = 1;
+    String selectedAttachment, s_fileExtension;
+    ImageView img1;
+    String imageFileName;
+    String s_id_pic,s_display_photo,s_resume;
+    Bitmap bitmap_display_photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
 //        setSupportActionBar(binding.toolbar);
 
         Bundle bundle = getIntent().getExtras();
-        String userType = bundle.getString("user_type");
+        userType = bundle.getString("user_type");
         if(userType.matches("Client")){
             binding.skills.setVisibility(View.GONE);
             binding.experience.setVisibility(View.GONE);
@@ -125,16 +133,22 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        binding.attachFileButton.setOnClickListener(new View.OnClickListener() {
+        binding.buttonSelectPdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFilePicker();
+                openFilePicker("resume");
+            }
+        });
+        binding.buttonSelectID.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFilePicker("id_pic");
             }
         });
         binding.selectedImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFilePicker();
+                openFilePicker("display_photo");
             }
         });
 
@@ -153,6 +167,10 @@ public class RegisterActivity extends AppCompatActivity {
                 location = binding.location.getText().toString();
                 skills = binding.skills.getText().toString();
                 experience = binding.experience.getText().toString();
+                s_display_photo = binding.displayPhotoTextView.getText().toString();
+                s_id_pic = binding.textViewFilePathID.getText().toString();
+                s_resume = binding.textViewFilePathResume.getText().toString();
+
 
                 if(!isValidEmail(email)){
                     Toast.makeText(RegisterActivity.this, "Invalid Email!", Toast.LENGTH_SHORT).show();
@@ -164,24 +182,14 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
 
-                passdata(email,password,lastname,firstname,gender,age,phone,bday,location,skills,experience,userType);
+                img1 =  binding.selectedImageView;
+                BitmapDrawable draw = (BitmapDrawable) img1.getDrawable();
+                bitmap_display_photo = draw.getBitmap();
 
-                ImageView img1 =  binding.selectedImageView;
-
-                if(img1.getDrawable() == null){
-                    BitmapDrawable draw = (BitmapDrawable) img1.getDrawable();
-                    Bitmap bitmap = draw.getBitmap();
-                    saveImageToGallery(bitmap);
-                }
-
-
-//                img1.setDrawingCacheEnabled(true);
-//                Bitmap bmap = img1.getDrawingCache();
+                passdata(email,password,lastname,firstname,gender,age,phone,bday,location,skills,experience,userType,s_display_photo,s_id_pic,s_resume);
 
 
 
-                Intent i = new Intent(getApplicationContext(),LoginActivity.class);
-                startActivity(i);
             }
         });
 
@@ -189,6 +197,7 @@ public class RegisterActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.gender_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         genderSpinner.setAdapter(adapter);
 
 
@@ -202,7 +211,7 @@ public class RegisterActivity extends AppCompatActivity {
     public static boolean isValidEmail(CharSequence target) {
         return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
-    public void passdata(String email,String password,String lastname,String firstname,String gender,String age,String phone,String bday,String location,String skills,String experience,String user_type) {
+    public void passdata(String email,String password,String lastname,String firstname,String gender,String age,String phone,String bday,String location,String skills,String experience,String user_type,String display_photo,String id_pic,String resume) {
         /* Get all the data needed to pass*/
 
 
@@ -215,14 +224,23 @@ public class RegisterActivity extends AppCompatActivity {
 
             String incase_error = response;
             try {
-
                 obj = new JSONObject(response);
                 if(obj.getString("status")=="1"){
                     Toast.makeText(RegisterActivity.this, "Email already exists!", Toast.LENGTH_SHORT).show();
-
+                    return;
                 }
+
+                if(img1.getDrawable() != null){
+                    Log.e("DP ko", "onClick: display photo" );
+                    saveImageToGallery(bitmap_display_photo);
+                }
+
+
+
                 GetDataTask_in GetDataTask_in = new GetDataTask_in();
                 GetDataTask_in.execute();
+                Intent i = new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(i);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -316,6 +334,10 @@ public class RegisterActivity extends AppCompatActivity {
             params.put("skills", skills);
             params.put("experience", experience);
             params.put("user_type", user_type);
+            params.put("display_photo", display_photo);
+            params.put("id_pic", id_pic);
+            params.put("resume", resume);
+
 
 
             /* new parameters to pass */
@@ -366,24 +388,39 @@ public class RegisterActivity extends AppCompatActivity {
         return age;
     }
 
-    private void openFilePicker() {
+    private void openFilePicker(String isSelected) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*"); // Set the type of file you want to allow (e.g. "*/*" for all files, "image/*" for images only)
         intent.addCategory(Intent.CATEGORY_OPENABLE);
+        selectedAttachment = isSelected;
         startActivityForResult(Intent.createChooser(intent, "Select File"), PICK_FILE_REQUEST);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == PICK_FILE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri fileUri = data.getData(); // Get the Uri of the selected file
             String fileName = getFileName(fileUri); // Get file name from Uri (optional)
-            binding.fileNameTextView.setText(fileName); // Display file name
+            s_fileExtension = getFileExtension(fileUri);
+
+            imageFileName = selectedAttachment + "_" + System.currentTimeMillis() + "." + s_fileExtension;
+
+//            binding.fileNameTextView.setText(fileName); // Display file name
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), fileUri);
+                if(selectedAttachment=="display_photo"){
+                    binding.displayPhotoTextView.setText(imageFileName);
+                    binding.selectedImageView.setImageBitmap(bitmap);
+                    binding.selectedImageView.setAdjustViewBounds(true);
+                    binding.selectedImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                }
+                if(selectedAttachment=="id_pic"){
+                    binding.textViewFilePathID.setText(imageFileName);
+                }
+                if(selectedAttachment=="resume"){
+                    binding.textViewFilePathResume.setText(imageFileName);
+                }
 
-                binding.selectedImageView.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -405,6 +442,23 @@ public class RegisterActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_register);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+    public String getFileExtension(Uri uri) {
+        String extension = null;
+
+        // Get the MIME type of the file from its URI
+        ContentResolver contentResolver = getContentResolver();
+        String mimeType = contentResolver.getType(uri);
+
+        // If MIME type is available, get the extension from MimeTypeMap
+        if (mimeType != null) {
+            extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType);
+        } else {
+            // Fallback: Try to get extension from the URI's file path
+            extension = MimeTypeMap.getFileExtensionFromUrl(uri.toString());
+        }
+
+        return extension;
     }
 
     private void checkCameraPermission() {
@@ -436,19 +490,29 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void saveImageToGallery(Bitmap bitmap) {
         String savedImagePath = null;
-        String imageFileName = "JPEG_" + System.currentTimeMillis() + ".jpg";
+
+//        Environment env = new Environment();
+//
+//        if(selectedAttachment.matches("resume")){
+//           env = env.DIRECTORY_PICTURESl;
+//        }
+//        else{
+//
+//        }
+
         File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
                 + "/PinoySideGig");
+
 
         boolean success = true;
         if (!storageDir.exists()) {
             success = storageDir.mkdirs();
         }
-
+        Log.e("DP ko", "onClick: display photo" + imageFileName);
         if (success) {
             File imageFile = new File(storageDir, imageFileName);
             savedImagePath = imageFile.getAbsolutePath();
-
+            Log.e("DP ko", "onClick: display photo" + imageFileName);
             try {
                 FileOutputStream outputStream = new FileOutputStream(imageFile);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
@@ -456,8 +520,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                 // Add the image to the gallery
                 galleryAddPic(savedImagePath);
-
                 Toast.makeText(this, "Image Saved to Gallery", Toast.LENGTH_SHORT).show();
+
             } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Failed to Save Image", Toast.LENGTH_SHORT).show();

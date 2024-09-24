@@ -7,18 +7,6 @@
     android:fitsSystemWindows="true"
     tools:context=".RegisterActivity">
 
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fitsSystemWindows="true">-->
-
-<!--        <com.google.android.material.appbar.MaterialToolbar-->
-<!--            android:id="@+id/toolbar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="?attr/actionBarSize"-->
-<!--            android:background="#6200EE" />-->
-
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -95,7 +83,8 @@
 
                 <EditText
                     android:id="@+id/bday"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edittext_background"
                     android:clickable="true"
@@ -106,8 +95,9 @@
 
                 <EditText
                     android:id="@+id/age"
-                    android:layout_width="142dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:layout_marginLeft="15dp"
                     android:background="@drawable/edittext_background"
                     android:editable="false"
@@ -175,6 +165,52 @@
                 android:hint="Experience"
                 android:inputType="text"
                 android:padding="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonSelectID"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Upload ID" />
+
+                <TextView
+                    android:id="@+id/textViewFilePathID"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:layout_below="@id/buttonSelectPdf"
+                    android:text="Selected file path will appear here" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonSelectPdf"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Attach Resume (PDF)" />
+
+                <TextView
+                    android:id="@+id/textViewFilePathResume"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:layout_below="@id/buttonSelectPdf"
+                    android:text="Selected file path will appear here" />
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -192,7 +228,7 @@
 
             <!-- TextView to display the selected file name -->
             <TextView
-                android:id="@+id/fileNameTextView"
+                android:id="@+id/displayPhotoTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No file selected"

@@ -3,12 +3,16 @@ package com.pinoy.side_gig.ui.account;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,12 +26,14 @@ import com.pinoy.side_gig.UserTypeActivity;
 import com.pinoy.side_gig.data.database.DatabaseHelper;
 import com.pinoy.side_gig.databinding.FragmentAccountBinding;
 
+import java.io.File;
+
 public class AccountFragment extends Fragment {
 
     private FragmentAccountBinding binding;
     Button btnLogout;
     DatabaseHelper myDb;
-    String email, firstname, lastname, phone,user_type,skill;
+    String email, firstname, lastname, phone,user_type,skill,display_photo;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,6 +51,8 @@ public class AccountFragment extends Fragment {
             phone = get_email.getString(6);
             user_type = get_email.getString(14);
             skill = get_email.getString(9);
+            display_photo = get_email.getString(13);
+
         }
 //        Toast.makeText(getContext(), phone, Toast.LENGTH_SHORT).show();
 
@@ -53,6 +61,14 @@ public class AccountFragment extends Fragment {
         binding.phoneTextView.setText(phone);
         binding.skills.setText(toTitleCase(skill));
         btnLogout = binding.logoutButton;
+
+        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                + "/PinoySideGig/" + display_photo);
+        Bitmap myBitmap = BitmapFactory.decodeFile(storageDir.getAbsolutePath());
+
+       binding.profileImageView.setImageBitmap(myBitmap);
+       binding.profileImageView.setAdjustViewBounds(true);
+       binding.profileImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -87,8 +103,8 @@ public class AccountFragment extends Fragment {
         });
 
 
-        final TextView textView = binding.textReflow;
-        accountViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+//        final TextView textView = binding.textReflow;
+//        accountViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
