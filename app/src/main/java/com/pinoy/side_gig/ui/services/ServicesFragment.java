@@ -69,24 +69,24 @@ public class ServicesFragment extends Fragment {
     private static class TransformAdapter extends ListAdapter<String, TransformViewHolder> {
 
         private final List<Integer> drawables = Arrays.asList(
-                R.drawable.cleaining,
-                R.drawable.ico,
-                R.drawable.shoemaker,
-                R.drawable.cooking,
-                R.drawable.electrician,
-                R.drawable.driver,
+                R.drawable.babysitter,
                 R.drawable.beautycare,
+                R.drawable.carpenter,
+                R.drawable.cleaining,
+                R.drawable.computer_repair,
+                R.drawable.cooking,
+                R.drawable.driver,
+                R.drawable.editing,
+                R.drawable.electrician,
+                R.drawable.fridge,
+                R.drawable.ico,
                 R.drawable.laundry,
                 R.drawable.painter,
-                R.drawable.carpenter,
-                R.drawable.plumber,
-                R.drawable.tutor,
-                R.drawable.babysitter,
-                R.drawable.fridge,
-                R.drawable.computer_repair,
                 R.drawable.photography,
+                R.drawable.plumber,
+                R.drawable.shoemaker,
+                R.drawable.tutor,
                 R.drawable.videography,
-                R.drawable.editing,
                 R.drawable.welder);
 
         protected TransformAdapter() {

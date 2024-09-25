@@ -84,10 +84,10 @@ public class RegisterActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final int PICK_FILE_REQUEST = 1;
     String selectedAttachment, s_fileExtension;
-    ImageView img1;
+    ImageView img1,imgId,imgResume;
     String imageFileName;
     String s_id_pic,s_display_photo,s_resume;
-    Bitmap bitmap_display_photo;
+    Bitmap bitmap_display_photo,bitmap_id,bitmap_resume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,6 +186,14 @@ public class RegisterActivity extends AppCompatActivity {
                 BitmapDrawable draw = (BitmapDrawable) img1.getDrawable();
                 bitmap_display_photo = draw.getBitmap();
 
+                imgId =  binding.imageViewFilePathID;
+                BitmapDrawable draw_id = (BitmapDrawable) imgId.getDrawable();
+                bitmap_id = draw_id.getBitmap();
+
+                imgResume =  binding.imageViewFilePathResume;
+                BitmapDrawable draw_resume = (BitmapDrawable) imgResume.getDrawable();
+                bitmap_resume = draw_resume.getBitmap();
+
                 passdata(email,password,lastname,firstname,gender,age,phone,bday,location,skills,experience,userType,s_display_photo,s_id_pic,s_resume);
 
 
@@ -233,6 +241,14 @@ public class RegisterActivity extends AppCompatActivity {
                 if(img1.getDrawable() != null){
                     Log.e("DP ko", "onClick: display photo" );
                     saveImageToGallery(bitmap_display_photo);
+                }
+                if(imgId.getDrawable() != null){
+                    Log.e("DP ko", "onClick: display photo" );
+                    saveImageToGallery(bitmap_id);
+                }
+                if(imgResume.getDrawable() != null){
+                    Log.e("DP ko", "onClick: display photo" );
+                    saveImageToGallery(bitmap_resume);
                 }
 
 
@@ -410,15 +426,24 @@ public class RegisterActivity extends AppCompatActivity {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), fileUri);
                 if(selectedAttachment=="display_photo"){
                     binding.displayPhotoTextView.setText(imageFileName);
+                    binding.selectedImageView.setVisibility(View.VISIBLE);
                     binding.selectedImageView.setImageBitmap(bitmap);
                     binding.selectedImageView.setAdjustViewBounds(true);
                     binding.selectedImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 }
                 if(selectedAttachment=="id_pic"){
                     binding.textViewFilePathID.setText(imageFileName);
+                    binding.imageViewFilePathID.setVisibility(View.VISIBLE);
+                    binding.imageViewFilePathID.setImageBitmap(bitmap);
+                    binding.imageViewFilePathID.setAdjustViewBounds(true);
+                    binding.imageViewFilePathID.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 }
                 if(selectedAttachment=="resume"){
                     binding.textViewFilePathResume.setText(imageFileName);
+                    binding.imageViewFilePathResume.setVisibility(View.VISIBLE);
+                    binding.imageViewFilePathResume.setImageBitmap(bitmap);
+                    binding.imageViewFilePathResume.setAdjustViewBounds(true);
+                    binding.imageViewFilePathResume.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 }
 
             } catch (IOException e) {
