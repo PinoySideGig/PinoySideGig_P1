@@ -39,7 +39,6 @@
     <!-- Gender Options  -->
     <string name="gender_prompt">Select Gender</string>
     <string-array name="gender_options">
-        <item>Select Gender</item>
         <item>Male</item>
         <item>Female</item>
     </string-array>

@@ -181,18 +181,24 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-
                 img1 =  binding.selectedImageView;
-                BitmapDrawable draw = (BitmapDrawable) img1.getDrawable();
-                bitmap_display_photo = draw.getBitmap();
+                if(img1.getDrawable() != null){
+                    BitmapDrawable draw = (BitmapDrawable) img1.getDrawable();
+                    bitmap_display_photo = draw.getBitmap();
+                }
 
                 imgId =  binding.imageViewFilePathID;
-                BitmapDrawable draw_id = (BitmapDrawable) imgId.getDrawable();
-                bitmap_id = draw_id.getBitmap();
+                if(imgId.getDrawable() != null){
+                    BitmapDrawable draw_id = (BitmapDrawable) imgId.getDrawable();
+                    bitmap_id = draw_id.getBitmap();
+                }
 
                 imgResume =  binding.imageViewFilePathResume;
-                BitmapDrawable draw_resume = (BitmapDrawable) imgResume.getDrawable();
-                bitmap_resume = draw_resume.getBitmap();
+                if(imgResume.getDrawable() != null){
+                    BitmapDrawable draw_resume = (BitmapDrawable) imgResume.getDrawable();
+                    bitmap_resume = draw_resume.getBitmap();
+                }
+
 
                 passdata(email,password,lastname,firstname,gender,age,phone,bday,location,skills,experience,userType,s_display_photo,s_id_pic,s_resume);
 
@@ -205,7 +211,6 @@ public class RegisterActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.gender_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         genderSpinner.setAdapter(adapter);
 
 
@@ -239,16 +244,13 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
                 if(img1.getDrawable() != null){
-                    Log.e("DP ko", "onClick: display photo" );
-                    saveImageToGallery(bitmap_display_photo);
+                    saveImageToGallery1(bitmap_display_photo);
                 }
                 if(imgId.getDrawable() != null){
-                    Log.e("DP ko", "onClick: display photo" );
-                    saveImageToGallery(bitmap_id);
+                    saveImageToGallery2(bitmap_id);
                 }
                 if(imgResume.getDrawable() != null){
-                    Log.e("DP ko", "onClick: display photo" );
-                    saveImageToGallery(bitmap_resume);
+                    saveImageToGallery3(bitmap_resume);
                 }
 
 
@@ -513,17 +515,20 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void saveImageToGallery(Bitmap bitmap) {
+    private void saveImageToGallery1(Bitmap bitmap) {
         String savedImagePath = null;
+        String imgToSave="";
 
-//        Environment env = new Environment();
-//
+//        if(selectedAttachment.matches("display_photo")){
+            imgToSave = binding.displayPhotoTextView.getText().toString();
+//        }
 //        if(selectedAttachment.matches("resume")){
-//           env = env.DIRECTORY_PICTURESl;
+//            imgToSave = binding.textViewFilePathResume.getText().toString();
 //        }
-//        else{
-//
+//        if(selectedAttachment.matches("id_pic")){
+//            imgToSave = binding.textViewFilePathID.getText().toString();
 //        }
+
 
         File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
                 + "/PinoySideGig");
@@ -533,11 +538,11 @@ public class RegisterActivity extends AppCompatActivity {
         if (!storageDir.exists()) {
             success = storageDir.mkdirs();
         }
-        Log.e("DP ko", "onClick: display photo" + imageFileName);
+        Log.e("DP ko", "onClick: display photo" + imgToSave);
         if (success) {
-            File imageFile = new File(storageDir, imageFileName);
+            File imageFile = new File(storageDir, imgToSave);
             savedImagePath = imageFile.getAbsolutePath();
-            Log.e("DP ko", "onClick: display photo" + imageFileName);
+            Log.e("DP ko", "onClick: display photo" + imgToSave);
             try {
                 FileOutputStream outputStream = new FileOutputStream(imageFile);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
@@ -545,7 +550,93 @@ public class RegisterActivity extends AppCompatActivity {
 
                 // Add the image to the gallery
                 galleryAddPic(savedImagePath);
-                Toast.makeText(this, "Image Saved to Gallery", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Image Saved to Gallery", Toast.LENGTH_SHORT).show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Failed to Save Image", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void saveImageToGallery2(Bitmap bitmap) {
+        String savedImagePath = null;
+        String imgToSave="";
+
+//        if(selectedAttachment.matches("display_photo")){
+//            imgToSave = binding.displayPhotoTextView.getText().toString();
+//        }
+//        if(selectedAttachment.matches("resume")){
+            imgToSave = binding.textViewFilePathResume.getText().toString();
+//        }
+//        if(selectedAttachment.matches("id_pic")){
+//            imgToSave = binding.textViewFilePathID.getText().toString();
+//        }
+
+
+        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                + "/PinoySideGig");
+
+
+        boolean success = true;
+        if (!storageDir.exists()) {
+            success = storageDir.mkdirs();
+        }
+        Log.e("DP ko", "onClick: display photo" + imgToSave);
+        if (success) {
+            File imageFile = new File(storageDir, imgToSave);
+            savedImagePath = imageFile.getAbsolutePath();
+            Log.e("DP ko", "onClick: display photo" + imgToSave);
+            try {
+                FileOutputStream outputStream = new FileOutputStream(imageFile);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                outputStream.close();
+
+                // Add the image to the gallery
+                galleryAddPic(savedImagePath);
+//                Toast.makeText(this, "Image Saved to Gallery", Toast.LENGTH_SHORT).show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Failed to Save Image", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void saveImageToGallery3(Bitmap bitmap) {
+        String savedImagePath = null;
+        String imgToSave="";
+
+//        if(selectedAttachment.matches("display_photo")){
+//            imgToSave = binding.displayPhotoTextView.getText().toString();
+//        }
+//        if(selectedAttachment.matches("resume")){
+//            imgToSave = binding.textViewFilePathResume.getText().toString();
+//        }
+//        if(selectedAttachment.matches("id_pic")){
+            imgToSave = binding.textViewFilePathID.getText().toString();
+//        }
+
+
+        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                + "/PinoySideGig");
+
+
+        boolean success = true;
+        if (!storageDir.exists()) {
+            success = storageDir.mkdirs();
+        }
+        Log.e("DP ko", "onClick: display photo" + imgToSave);
+        if (success) {
+            File imageFile = new File(storageDir, imgToSave);
+            savedImagePath = imageFile.getAbsolutePath();
+            Log.e("DP ko", "onClick: display photo" + imgToSave);
+            try {
+                FileOutputStream outputStream = new FileOutputStream(imageFile);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                outputStream.close();
+
+                // Add the image to the gallery
+                galleryAddPic(savedImagePath);
+//                Toast.makeText(this, "Image Saved to Gallery", Toast.LENGTH_SHORT).show();
 
             } catch (IOException e) {
                 e.printStackTrace();

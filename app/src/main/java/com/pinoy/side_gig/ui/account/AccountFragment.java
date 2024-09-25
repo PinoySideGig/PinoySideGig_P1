@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,13 +28,15 @@ import com.pinoy.side_gig.data.database.DatabaseHelper;
 import com.pinoy.side_gig.databinding.FragmentAccountBinding;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class AccountFragment extends Fragment {
 
     private FragmentAccountBinding binding;
     Button btnLogout;
     DatabaseHelper myDb;
-    String email, firstname, lastname, phone,user_type,skill,display_photo;
+    String email, firstname, lastname, phone,user_type,skill,display_photo,id_pic,resume;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -52,6 +55,8 @@ public class AccountFragment extends Fragment {
             user_type = get_email.getString(14);
             skill = get_email.getString(9);
             display_photo = get_email.getString(13);
+            id_pic = get_email.getString(11);
+            resume = get_email.getString(12);
 
         }
 //        Toast.makeText(getContext(), phone, Toast.LENGTH_SHORT).show();
@@ -62,13 +67,32 @@ public class AccountFragment extends Fragment {
         binding.skills.setText(toTitleCase(skill));
         btnLogout = binding.logoutButton;
 
-        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                + "/PinoySideGig/" + display_photo);
-        Bitmap myBitmap = BitmapFactory.decodeFile(storageDir.getAbsolutePath());
+        if(!display_photo.matches("")){
+            Bitmap myBitmapDisplayPhoto = getBitmapImg(display_photo);
+            binding.profileImageView.setImageBitmap(myBitmapDisplayPhoto);
+            binding.profileImageView.setAdjustViewBounds(true);
+            binding.profileImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        }
 
-       binding.profileImageView.setImageBitmap(myBitmap);
-       binding.profileImageView.setAdjustViewBounds(true);
-       binding.profileImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        if(!id_pic.matches("")){
+            Bitmap myBitmapDisplayPhoto = getBitmapImg(id_pic);
+            binding.idImageView.setImageBitmap(myBitmapDisplayPhoto);
+            binding.idImageView.setAdjustViewBounds(true);
+            binding.idImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            binding.idImageView.setVisibility(View.VISIBLE);
+            binding.idTextview.setVisibility(View.VISIBLE);
+        }
+
+        if(!resume.matches("")){
+            Bitmap myBitmapDisplayPhoto = getBitmapImg(resume);
+            binding.resumeImageView.setImageBitmap(myBitmapDisplayPhoto);
+            binding.resumeImageView.setAdjustViewBounds(true);
+            binding.resumeImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            binding.resumeImageView.setVisibility(View.VISIBLE);
+            binding.resumeTextview.setVisibility(View.VISIBLE);
+        }
+
+
 
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -146,6 +170,13 @@ public class AccountFragment extends Fragment {
         }
 
         return builder.toString(); // Return builders text
+    }
+
+    public static Bitmap getBitmapImg(String str_img) {
+        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                + "/PinoySideGig/" + str_img);
+        Bitmap myBitmap = BitmapFactory.decodeFile(storageDir.getAbsolutePath());
+        return myBitmap;
     }
 
     @Override

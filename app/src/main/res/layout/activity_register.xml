@@ -187,13 +187,12 @@
                     android:textAlignment="center"
                     android:visibility="gone"
                     android:layout_below="@id/buttonSelectPdf"
-                    android:text="Selected file path will appear here" />
+                    android:text="" />
                 <ImageView
                     android:id="@+id/imageViewFilePathID"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ico"
                     android:visibility="gone"
                     />
             </LinearLayout>
@@ -218,13 +217,12 @@
                     android:textAlignment="center"
                     android:layout_below="@id/buttonSelectPdf"
                     android:visibility="gone"
-                    android:text="Selected file path will appear here" />
+                    android:text="" />
                 <ImageView
                     android:id="@+id/imageViewFilePathResume"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ico"
                     android:visibility="gone"
                     />
             </LinearLayout>
