@@ -48,4 +48,89 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <string name="terms_conditions">
+        <![CDATA[
+            1. User Account
+                \n\t\t• Eligibility: To use this app, you must be at least 18 years
+                old or have reached the age of legal employment.
+                \n\t\t• Account Creation: Users are required to provide accurate
+                and complete information when creating an account. You are
+                responsible for maintaining the confidentiality of your
+                login credentials.
+                \n\t\t• Account Security: You are responsible for any activities
+                that occur under your account. Please notify us immediately
+                of any unauthorized use.
+            \n2. Job Applications
+                \n\t\t• Accuracy of Information: By applying for jobs through this
+                application, you agree to provide accurate, complete, and
+                truthful information. Falsification or misrepresentation of
+                your qualifications may result in the termination of your
+                account.
+                \n\t\t• Submission of Applications: Once an application is
+                submitted, you may not be able to modify it. It is the
+                user’s responsibility to verify the accuracy of all
+                submissions.
+                \n\t\t• Employer Rights: Employers using the platform reserve the
+                right to accept or reject applications at their discretion.
+                We are not responsible for the hiring decisions made by
+                employers.
+            \n3. Fees and Payments
+                \n\t\t• Job Listings: While the app is free for job seekers,
+                employers may be charged for posting job listings or
+                accessing certain features.
+                \n\t\t• Payment Processing: All payments made through the app will
+                be processed securely. Refunds will only be issued in
+                accordance with our refund policy, which is accessible on
+                the app.
+
+            \n4. User Conduct
+                \n\t\t• You agree not to engage in any of the following:
+                \n\t\t\to Posting or transmitting inappropriate, offensive, or
+                illegal content.
+                \n\t\t\to Attempting to access or compromise the accounts of
+                other users.
+                \n\t\t]to Using the application for fraudulent or malicious
+                purposes.
+
+            \n5. Intellectual Property
+                \n\t\t• The content and materials available on the app, including
+                trademarks, logos, and software, are the property of [App
+                Name] or its licensors. You may not copy, modify, or
+                distribute any part of the application without prior
+                written permission.
+            \n6. Privacy
+                \n\t\t• The use of your personal information is governed by our
+                Privacy Policy, which explains how we collect, use, and
+                disclose your information.
+            \n7. Termination
+                \n\t\t• We reserve the right to suspend or terminate your account
+                without notice if you violate these terms or engage in
+                conduct that we determine to be harmful to the platform or
+                its users.
+            \n8. Limitation of Liability
+                \n\t\t• [App Name] is not liable for any direct, indirect,
+                incidental, or consequential damages arising from your use
+                of the application, including but not limited to lost job
+                opportunities, unauthorized access to your data, or
+                employment disputes.
+            \n9. Modifications to the Terms
+                \n\t\t• We reserve the right to update or modify these terms at any
+                time. You will be notified of any material changes, and
+                your continued use of the application after such changes
+                constitutes acceptance of the new terms.
+            \n\n
+            By clicking "Agree" or using the app, you confirm that you
+            have read, understood, and agree to these terms and
+            conditions.
+        ]]>
+    </string>
+    <string name="accept_msg">
+         <![CDATA[
+            By accessing or using the Pinoy SideGig Mobile
+            Application, you agree to be bound by these terms and
+            conditions. If you do not agree with any part of these terms,
+            you should not use this application.
+         ]]>
+    </string>
+
 </resources>

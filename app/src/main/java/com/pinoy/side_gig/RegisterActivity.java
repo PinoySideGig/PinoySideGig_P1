@@ -2,9 +2,11 @@ package com.pinoy.side_gig;
 
 //import static com.pinoy.side_gig.MainActivity.CAMERA_REQUEST_CODE;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -25,9 +27,11 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -88,6 +92,8 @@ public class RegisterActivity extends AppCompatActivity {
     String imageFileName;
     String s_id_pic,s_display_photo,s_resume;
     Bitmap bitmap_display_photo,bitmap_id,bitmap_resume;
+    private TextView tvTermsConditions;
+    private CheckBox cbAcceptTerms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,8 +102,21 @@ public class RegisterActivity extends AppCompatActivity {
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        tvTermsConditions = findViewById(R.id.tv_terms_conditions);
+        cbAcceptTerms = findViewById(R.id.cb_accept_terms);
         calendar = Calendar.getInstance();
+        binding.registerButton.setEnabled(false);
+        tvTermsConditions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTermsDialog();
+            }
+        });
 
+        // Enable the proceed button when the checkbox is checked
+        cbAcceptTerms.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            binding.registerButton.setEnabled(isChecked);
+        });
 //        setSupportActionBar(binding.toolbar);
 
         Bundle bundle = getIntent().getExtras();
@@ -220,6 +239,21 @@ public class RegisterActivity extends AppCompatActivity {
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
 
+    }
+
+    private void showTermsDialog() {
+        String termsText = getString(R.string.terms_conditions);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Terms and Conditions");
+        builder.setMessage(termsText);
+        builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
     public static boolean isValidEmail(CharSequence target) {
         return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
