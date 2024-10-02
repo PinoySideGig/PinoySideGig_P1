@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.pinoy.side_gig.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
+        android:label="My Postings"
         tools:layout="@layout/fragment_slideshow" />
 
     <fragment

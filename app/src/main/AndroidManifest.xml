@@ -28,6 +28,10 @@
             android:exported="true"
             android:theme="@style/Theme.MyApplication" />
         <activity
+            android:name=".ui.slideshow.AddPostingActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MyApplication" />
+        <activity
             android:name=".UserTypeActivity"
             android:exported="true"
             android:theme="@style/Theme.MyApplication" />
